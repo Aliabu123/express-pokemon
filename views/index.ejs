@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Pokemon Collector</title>
+  <link rel="stylesheet" href="/public/css/style.css">
+</head>
+
+<body>
+  <h1>Pokemon Collector</h1>
+  <form action="/pokemon" method="get">
+    <label for="name">Pokemon Name:</label>
+    <input type="text" id="name" name="name" required>
+    <button type="submit">Search</button>
+  </form>
+  <div class="pokemon-card">
+    <% if (pokemon.name) { %>
+      <div class="pokemon">
+        <h2>
+          <%= pokemon.name %>
+        </h2>
+        <img src="<%= pokemon.image %>" alt="<%= pokemon.name %>">
+        <p>Type: <%= pokemon.type.join(', ') %></p>
+        <p>Height: <%= pokemon.height %> m</p>
+        <p>Weight: <%= pokemon.weight %> kg</p>
+        <p>Abilities: <%= pokemon.abilities.join(' , ') %></p>
+        <form action="/favorites?action=addFavorite" method="post">
+          <input type="hidden" name="pokemonId" value="<%= pokemon._id %>">
+          <button type="submit">Add to Favorites</button>
+        </form>
+      </div>
+    <% } %>
+    </div>
+    <a href="/favorites"><button class="btn">Favorite Pokemons</button></a>
+  </body>
+</html>

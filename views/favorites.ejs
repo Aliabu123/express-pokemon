@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Pokemon Collector - Favorites</title>
+  <link rel="stylesheet" href="/public/css/style.css">
+</head>
+
+<body>
+  <h1>Favorite Pokemon</h1>
+  <form action="/favorites?action=addFavorite" method="post">
+    <label for="pokemonId">Pokemon:</label>
+    <select id="pokemonId" name="pokemonId" required>
+      <% pokemons.forEach(pokemon=> { %>
+        <option value="<%= pokemon._id %>">
+          <%= pokemon.name %>
+        </option>
+        <% }) %>
+    </select>    
+    <label for="notes">Notes:</label>
+    <textarea id="notes" name="notes"></textarea>
+    <button type="submit">Add Favorite</button>
+  </form>
+  <% if (favorites.length> 0) { %>
+    <div class="pokemon-card">
+      <% favorites.forEach(favorite=> { %>
+        <div class="pokemon">
+          <h2>
+            <%= favorite.pokemon.name %>
+          </h2>
+          <img src="<%= favorite.pokemon.image %>" alt="<%= favorite.pokemon.name %>">
+          <p>Type: <%= favorite.pokemon.type.join(', ') %></p>
+              <p>Height: <%= favorite.pokemon.height %> m</p>
+              <p>Weight: <%= favorite.pokemon.weight %> kg</p>
+              <p>Abilities: <%= favorite.pokemon.abilities.join(' , ') %></p>
+              <p>Notes:</p>
+              <!-- Note/Update Note -->
+              <form action="/favorites?favoriteId=<%= favorite._id %>&&action=updatFavorite" method="post">
+                <textarea id="notes" name="notes"><%= favorite.notes %></textarea>
+                <button type="submit">Update Note</button>
+              </form>
+              <!-- Delete favorite -->
+              <form action="/favorites?favoriteId=<%= favorite._id %>&&action=deleteFavorite" method="post">
+                <button type="submit">Delete Favorite</button>
+              </form>
+            </div>
+        <% }) %>
+      </div>
+    <% } else { %>
+      <p>No favorites added yet</p>
+    <% } %>
+    <a href="/"><button class="btn">Search for Pokemon</button></a>
+  </body>
+</html>
